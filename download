@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.venv/
+venv/
+.DS_Store
+collected.json
+test_digest.json
+test_collected.json
+preview*.html
+*.local.html
+.idea/
+.vscode/
+node_modules/
