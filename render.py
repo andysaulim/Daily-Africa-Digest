@@ -277,19 +277,26 @@ def _build_the_wire(d: dict) -> str:
 </td></tr>
 """
 
-def _build_card_grid(items: list, accent: str, label: str, subtitle: str = "", kicker_color: str = "#1B2A4A") -> str:
-    """Render a 2-column card grid for sections like Continental Bodies, External Powers, US-Africa."""
+def _build_card_grid(items: list, accent: str, label: str, subtitle: str = "",
+                     kicker_color: str = "#1B2A4A", border: str = "top", cols: int = 2) -> str:
+    """Render a card grid. border='top'|'left'. cols=2 or 3."""
     if not items:
         return ""
+    border_css = f"border-top:3px solid {accent}" if border == "top" else f"border-left:3px solid {accent}"
+    col_pct = str(round(100 / cols))
     cells = []
-    for it in items[:4]:
+    for idx, it in enumerate(items[:cols * 2]):
         it = _as_dict(it, "headline")
         kicker   = _esc(it.get("kicker", ""))
         headline = _esc(it.get("headline", ""))
         dek      = _esc(it.get("dek", ""))
+        # right-pad all but last cell in a row
+        is_last_in_row = ((idx + 1) % cols == 0)
+        pad_right = "0" if is_last_in_row else "6px"
+        pad_left  = "0" if idx % cols == 0 else "6px"
         cells.append(f"""
-<td width="50%" valign="top" style="padding:0 8px 12px 0;">
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fafafa;border-top:3px solid {accent};">
+<td width="{col_pct}%" valign="top" style="padding:0 {pad_right} 12px {pad_left};">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fafafa;{border_css};">
     <tr><td style="padding:14px 16px;">
       <div style="font-family:'Courier New',Courier,monospace;font-size:9px;color:{accent};letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;">{kicker}</div>
       <div style="font-family:Arial,sans-serif;font-size:13px;line-height:1.55;color:{kicker_color};font-weight:bold;margin-bottom:4px;">{headline}</div>
@@ -298,8 +305,8 @@ def _build_card_grid(items: list, accent: str, label: str, subtitle: str = "", k
   </table>
 </td>""")
     rows = []
-    for i in range(0, len(cells), 2):
-        rows.append(f"<tr>{''.join(cells[i:i+2])}</tr>")
+    for i in range(0, len(cells), cols):
+        rows.append(f"<tr>{''.join(cells[i:i+cols])}</tr>")
     subtitle_html = f'<div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">{_esc(subtitle)}</div>' if subtitle else '<div style="margin-bottom:18px;"></div>'
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
@@ -532,13 +539,13 @@ def render_html(digest: dict) -> str:
         _build_top_stories(digest),
         _build_overnight_flash(digest),
         _build_the_wire(digest),
-        _build_card_grid(digest.get("continental_bodies") or [], "#1B2A4A", "Continental Bodies", "AU · AfCFTA · SADC · ECOWAS · EAC · AES"),
-        _build_card_grid(digest.get("us_africa_policy") or [], "#C0392B", "US–Africa Policy", "AGOA · AFRICOM · DFC · OFAC · State Africa"),
+        _build_card_grid(digest.get("continental_bodies") or [], "#1B2A4A", "Continental Bodies", "AU · AfCFTA · SADC · ECOWAS · EAC · AES", border="top", cols=2),
+        _build_card_grid(digest.get("us_africa_policy") or [], "#C0392B", "US–Africa Policy", "AGOA · AFRICOM · DFC · OFAC · State Africa", border="left", cols=3),
         _build_congressional_watch(digest),
         _build_monitor_block(digest, "sahel_monitor", "Sahel Monitor", "AES · JNIM · ISSP · Africa Corps"),
         _build_monitor_block(digest, "sudan_horn_monitor", "Sudan &amp; Horn Monitor", "SAF/RSF · Ethiopia · Somalia · Somaliland"),
-        _build_monitor_block(digest, "great_lakes_monitor", "Great Lakes Monitor", "DRC · M23/AFC · Rwanda · Burundi"),
-        _build_card_grid(digest.get("external_powers_watch") or [], "#C0392B", "External Powers Watch", "China · Russia · UAE · Türkiye · Israel"),
+        _build_monitor_block(digest, "great_lakes_monitor", "Great Lakes Monitor", "DRC · M23/AFC · Rwanda · Burundi · Uganda"),
+        _build_card_grid(digest.get("external_powers_watch") or [], "#C0392B", "External Powers Watch", "China · Russia · UAE · Türkiye · Israel", border="left", cols=2),
         _build_minerals_energy(digest),
         _build_personnel_elections(digest),
         _build_experts(digest),
