@@ -78,18 +78,25 @@ def _market_cell(label: str, value, change_pct=None, sub: str = "") -> str:
 
 _AFRICA_MAP_URL = "https://raw.githubusercontent.com/andysaulim/Daily-Africa-Digest/main/public/africa.svg"
 
-def _build_header(d: dict, word_count: int = 0) -> str:
+def _build_header(d: dict, word_count: int = 0, read_min: int = 1) -> str:
     date_str = _esc(d.get("digest_date", "—"))
     re_line  = _esc(d.get("re_line", ""))
-    wc_chip  = f'<span style="display:inline-block;background:rgba(255,255,255,0.10);color:rgba(255,255,255,0.75);font-family:\'Courier New\',Courier,monospace;font-size:10px;letter-spacing:1px;padding:2px 8px;border:1px solid rgba(255,255,255,0.20);margin-left:10px;">~{word_count:,} words</span>' if word_count else ""
+    wc_line  = f'{word_count:,} words &middot; {read_min} min read' if word_count else ""
+    re_block = f"""<div style="margin-top:12px;padding-top:12px;border-top:1px solid #D4AC0D;font-size:13px;color:rgba(255,255,255,0.9);font-family:Georgia,'Times New Roman',serif;line-height:1.6;"><strong style="color:#D4AC0D;font-family:Arial,sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;">RE:</strong>&nbsp; {re_line}</div>""" if re_line else ""
     return f"""
-<tr><td style="background:#1B2A4A;padding:28px 32px 24px 32px;color:#ffffff;">
-  <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">CSIS · Daily Africa Brief</div>
-  <div style="font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;color:#ffffff;font-weight:400;letter-spacing:-0.5px;margin-bottom:14px;">Africa Daily Brief</div>
-  <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">{date_str} &nbsp;·&nbsp; 7:30 AM ET{wc_chip}</div>
-  <div style="border-top:1px solid rgba(255,255,255,0.18);margin:18px 0 14px 0;"></div>
-  <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">RE</div>
-  <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.92);">{re_line}</div>
+<tr><td style="background:#1B2A4A;padding:18px 32px 14px 32px;color:#ffffff;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr>
+    <td style="vertical-align:top;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#D4AC0D;font-family:Arial,sans-serif;margin-bottom:6px;">CSIS · Daily Africa Brief</div>
+      <div style="margin:0 0 4px 0;font-size:28px;font-weight:700;font-family:Georgia,'Times New Roman',serif;color:#ffffff;letter-spacing:0.3px;">Africa Daily Brief</div>
+      <div style="font-size:16px;font-weight:400;color:rgba(255,255,255,0.85);font-family:Georgia,'Times New Roman',serif;">{date_str}</div>
+    </td>
+    <td style="vertical-align:top;text-align:right;">
+      <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,0.55);margin-bottom:3px;">7:30 AM ET</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.4);">{wc_line}</div>
+    </td>
+  </tr></table>
+  {re_block}
 </td></tr>
 """
 
@@ -142,21 +149,31 @@ def _build_delta_bar(d: dict) -> str:
 
 def _build_morning_memo(d: dict) -> str:
     memo = d.get("morning_memo") or []
-    paras = []
-    for i, p in enumerate(memo):
-        margin = "0 0 12px 0" if i < len(memo) - 1 else "0"
+    if not memo:
+        return ""
+    items_html = ""
+    for idx, p in enumerate(memo[:3], 1):
         if isinstance(p, str):
             body = _esc(p)
         else:
             lead = _esc(p.get("lead", ""))
             text = _esc(p.get("text", ""))
             body = f"<strong>{lead}</strong> {text}" if lead else text
-        paras.append(f'<p style="margin:{margin};">{body}</p>')
+        mb = "margin-bottom:10px;" if idx < len(memo[:3]) else ""
+        items_html += f"""<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="{mb}">
+<tr>
+  <td width="28" style="vertical-align:top;padding-top:1px;">
+    <div style="width:22px;height:22px;border-radius:50%;background:#1B2A4A;color:#ffffff;font-size:11px;font-weight:700;text-align:center;line-height:22px;font-family:Arial,sans-serif;">{idx}</div>
+  </td>
+  <td style="vertical-align:top;padding-left:8px;">
+    <div style="font-size:14px;line-height:1.6;color:#222222;font-family:Georgia,'Times New Roman',serif;">{body}</div>
+  </td>
+</tr>
+</table>"""
     return f"""
-<tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:#1B2A4A;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:14px;">Morning Memo</div>
-  <div style="font-family:Georgia,'Times New Roman',serif;font-size:21px;line-height:1.4;color:#1B2A4A;margin-bottom:14px;letter-spacing:-0.3px;">Three notes for the desk this morning</div>
-  <div style="border-left:3px solid #1B2A4A;padding-left:16px;font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{''.join(paras)}</div>
+<tr><td style="padding:20px 32px;border-bottom:1px solid #EBEBEB;background:#ffffff;">
+  <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#D4AC0D;font-family:Arial,sans-serif;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid #D4AC0D;">Morning Memo</div>
+  {items_html}
 </td></tr>
 """
 
@@ -529,9 +546,10 @@ def render_html(digest: dict) -> str:
     """Render a validated digest dict to email-safe HTML."""
     title = _esc(digest.get("digest_date", "Africa Daily Brief"))
     wc = _word_count(digest)
+    read_min = max(1, round(wc / 250))
 
     sections = [
-        _build_header(digest, wc),
+        _build_header(digest, wc, read_min),
         _build_market_strip(digest),
         _build_delta_bar(digest),
         _build_morning_memo(digest),
