@@ -83,6 +83,8 @@ def _build_market_strip(d: dict) -> str:
 
     def cell(key, label, sub_default=""):
         v = m.get(key) or {}
+        if isinstance(v, str):
+            return _market_cell(label, v, None, sub_default)
         return _market_cell(
             label,
             v.get("value"),
