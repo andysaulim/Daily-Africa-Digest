@@ -26,8 +26,8 @@ MODEL_FALLBACK = "claude-opus-4-6"
 MAX_TOKENS = 12_000
 
 WORD_COUNT_MIN = 1_400
-WORD_COUNT_TARGET = 1_700
-WORD_COUNT_MAX = 2_400
+WORD_COUNT_TARGET = 2_500
+WORD_COUNT_MAX = 3_600
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SYSTEM PROMPT
@@ -81,7 +81,7 @@ You produce a JSON object with these top-level keys, each populated from real so
 
 EVERY paragraph anchors to a real story or structural fact. If a section can't be populated from sources, leave it minimal — DO NOT pad. A short, sourced section beats a long fabricated one.
 
-WORD COUNT TARGET: 1,400–1,800 words across the digest. Below 1,200 is too thin. Above 2,400 starts to bloat.
+WORD COUNT TARGET: 2,000–3,000 words across the digest. Below 1,400 is too thin. Above 3,600 starts to bloat.
 
 OUTPUT FORMAT: Return only the JSON object. No preamble, no commentary, no markdown code fence."""
 
