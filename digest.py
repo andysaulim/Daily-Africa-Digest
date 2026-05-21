@@ -99,20 +99,20 @@ You produce a JSON object with these top-level keys, each populated from real so
   ],
   "congressional_watch": {"text": "paragraph covering HFAC/SFRC items and standing items"},
   "sahel_monitor": {
-    "fuaes": "Paragraph on FUAES/AES allied armed forces posture — sourced.",
-    "threat_actors": "Paragraph on JNIM/GSIM/VDP threat actor activity — sourced.",
-    "africa_corps": "Paragraph on Russia Africa Corps presence and operations — sourced."
+    "fuaes":        {"headline": "Short news-hook headline", "text": "Paragraph on FUAES/AES allied armed forces posture — sourced."},
+    "threat_actors":{"headline": "Short news-hook headline", "text": "Paragraph on JNIM/GSIM/VDP threat actor activity — sourced."},
+    "africa_corps": {"headline": "Short news-hook headline", "text": "Paragraph on Russia Africa Corps presence and operations — sourced."}
   },
   "sudan_horn_monitor": {
-    "territorial": "Paragraph on RSF/SAF territorial state and front lines — sourced.",
-    "defections": "Paragraph on defections cluster and unit-level shifts — sourced.",
-    "somaliland_ethiopia": "Paragraph on Somaliland-Ethiopia-Somalia dynamics — sourced."
+    "territorial":        {"headline": "Short news-hook headline", "text": "Paragraph on RSF/SAF territorial state and front lines — sourced."},
+    "defections":         {"headline": "Short news-hook headline", "text": "Paragraph on defections cluster and unit-level shifts — sourced."},
+    "somaliland_ethiopia":{"headline": "Short news-hook headline", "text": "Paragraph on Somaliland-Ethiopia-Somalia dynamics — sourced."}
   },
   "great_lakes_monitor": {
-    "m23_territory": "Paragraph on M23 territorial control and FARDC posture — sourced.",
-    "humanitarian": "Paragraph on IDP flows, aid access, casualty figures — sourced.",
-    "peace_track": "Paragraph on Luanda/Nairobi peace process status — sourced.",
-    "cobalt": "Paragraph on cobalt/critical minerals market developments — sourced."
+    "m23_territory":{"headline": "Short news-hook headline", "text": "Paragraph on M23 territorial control and FARDC posture — sourced."},
+    "humanitarian": {"headline": "Short news-hook headline", "text": "Paragraph on IDP flows, aid access, casualty figures — sourced."},
+    "peace_track":  {"headline": "Short news-hook headline", "text": "Paragraph on Luanda/Nairobi peace process status — sourced."},
+    "cobalt":       {"headline": "Short news-hook headline", "text": "Paragraph on cobalt/critical minerals market developments — sourced."}
   },
   "external_powers_watch": [
     {"kicker": "CHINA / DRC", "headline": "Headline", "dek": "1-2 sentence dek."},
@@ -149,7 +149,9 @@ You produce a JSON object with these top-level keys, each populated from real so
   "footer_note": "single line confirming sourcing and methodology"
 }
 
-EVERY paragraph anchors to a real story or structural fact. If a section can't be populated from sources, leave it minimal — DO NOT pad. A short, sourced section beats a long fabricated one.
+EVERY paragraph anchors to a real story or structural fact. A short, sourced section beats a long fabricated one.
+
+OMIT RULE: If a sub-section key has no relevant news in this collection cycle, OMIT that key entirely from the JSON. Do NOT write placeholder text like "No X reporting appeared" or "No developments this cycle." Silence is better than filler. This applies especially to monitor sub-sections (sahel_monitor, sudan_horn_monitor, great_lakes_monitor) and critical_minerals_energy.
 
 WORD COUNT TARGET: 2,000–3,000 words across the digest. Below 1,400 is too thin. Above 3,600 starts to bloat.
 

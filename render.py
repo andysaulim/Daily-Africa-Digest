@@ -76,10 +76,7 @@ def _market_cell(label: str, value, change_pct=None, sub: str = "") -> str:
 # COMPONENT BUILDERS
 # ─────────────────────────────────────────────────────────────────────────────
 
-_AFRICA_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 118" width="62" height="73" style="display:block;opacity:0.30;">
-  <path fill="#ffffff" d="M32,4 L50,2 L66,4 L76,12 L80,24 L77,34 L85,43 L88,56 L84,70 L74,87 L61,103 L52,114 L43,103 L30,87 L20,70 L16,56 L19,43 L11,33 L14,20 L23,11 Z"/>
-  <path fill="#ffffff" d="M76,12 L82,18 L84,28 L80,24 Z"/>
-</svg>"""
+_AFRICA_B64 = "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTE4Ij48cGF0aCBmaWxsPSJ3aGl0ZSIgZD0iTTMyLDQgTDUwLDIgTDY2LDQgTDc2LDEyIEw4MCwyNCBMNzcsMzQgTDg1LDQzIEw4OCw1NiBMODQsNzAgTDc0LDg3IEw2MSwxMDMgTDUyLDExNCBMNDMsMTAzIEwzMCw4NyBMMjAsNzAgTDE2LDU2IEwxOSw0MyBMMTEsMzMgTDE0LDIwIEwyMywxMSBaIi8+PC9zdmc+"
 
 def _build_header(d: dict) -> str:
     date_str = _esc(d.get("digest_date", "—"))
@@ -96,7 +93,9 @@ def _build_header(d: dict) -> str:
         <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">RE</div>
         <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.92);">{re_line}</div>
       </td>
-      <td width="90" style="padding:24px 28px 0 0;vertical-align:top;text-align:right;">{_AFRICA_SVG}</td>
+      <td width="90" style="padding:20px 24px 0 0;vertical-align:top;text-align:right;">
+        <img src="data:image/svg+xml;base64,{_AFRICA_B64}" width="62" height="73" alt="" style="display:block;opacity:0.28;">
+      </td>
     </tr>
   </table>
 </td></tr>
@@ -325,11 +324,18 @@ def _build_monitor_block(d: dict, key: str, label: str) -> str:
     if not isinstance(block, dict):
         block = {}
     paragraphs = []
-    items_list = [(k, v) for k, v in block.items() if not k.startswith("source") and isinstance(v, str)]
+    items_list = [(k, v) for k, v in block.items() if not k.startswith("source") and v]
     for idx, (k, v) in enumerate(items_list):
         sub_label = _esc(k.replace("_", " ").upper())
-        divider = "" if idx == 0 else 'border-top:1px solid rgba(142,68,173,0.18);margin-top:14px;padding-top:14px;'
-        paragraphs.append(f'<div style="{divider}"><div style="font-family:\'Courier New\',Courier,monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#8E44AD;margin-bottom:5px;">{sub_label}</div><p style="margin:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.65;color:#2c2c2c;">{_esc(v)}</p></div>')
+        divider = "" if idx == 0 else 'border-top:1px solid rgba(142,68,173,0.18);margin-top:16px;padding-top:16px;'
+        if isinstance(v, dict):
+            headline = _esc(v.get("headline", ""))
+            text     = _esc(v.get("text", ""))
+            headline_html = f'<div style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#1B2A4A;margin-bottom:5px;">{headline}</div>' if headline else ""
+        else:
+            headline_html = ""
+            text = _esc(str(v))
+        paragraphs.append(f'<div style="{divider}"><div style="font-family:\'Courier New\',Courier,monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#8E44AD;margin-bottom:5px;">{sub_label}</div>{headline_html}<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.65;color:#2c2c2c;">{text}</p></div>')
     sources = block.get("sources") or block.get("source_line") or ""
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
