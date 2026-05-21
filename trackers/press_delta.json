@@ -37,7 +37,7 @@
       "western_frame": "UAE attribution treated as Khartoum claim; hedged language"
     }
   },
-  "last_update": "2026-05-21T15:18:26.786923+00:00",
+  "last_update": "2026-05-21T16:05:23.990057+00:00",
   "outlets": {
     "addis_standard": {
       "article_count_24h": 0,
@@ -64,10 +64,10 @@
       "scope": "pan-african"
     },
     "africanews": {
-      "article_count_24h": 29,
+      "article_count_24h": 26,
       "id": "africanews",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "Africanews",
       "scope": "pan-african"
     },
@@ -75,15 +75,15 @@
       "article_count_24h": 16,
       "id": "ahram_online",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "Ahram Online (EG)",
       "scope": "national"
     },
     "allafrica": {
-      "article_count_24h": 136,
+      "article_count_24h": 135,
       "id": "allafrica",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "AllAfrica",
       "scope": "pan-african"
     },
@@ -91,7 +91,7 @@
       "article_count_24h": 4,
       "id": "dabanga",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "Dabanga Sudan",
       "scope": "national"
     },
@@ -136,10 +136,10 @@
       "scope": "national"
     },
     "mg_za": {
-      "article_count_24h": 2,
+      "article_count_24h": 3,
       "id": "mg_za",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "Mail & Guardian (SA)",
       "scope": "national"
     },
@@ -155,15 +155,15 @@
       "article_count_24h": 15,
       "id": "premium_times",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "Premium Times (NG)",
       "scope": "national"
     },
     "punch_ng": {
-      "article_count_24h": 28,
+      "article_count_24h": 30,
       "id": "punch_ng",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "Punch (NG)",
       "scope": "national"
     },
@@ -176,18 +176,18 @@
       "scope": "national"
     },
     "sudans_post": {
-      "article_count_24h": 3,
+      "article_count_24h": 2,
       "id": "sudans_post",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "Sudans Post",
       "scope": "national"
     },
     "the_standard_ke": {
-      "article_count_24h": 10,
+      "article_count_24h": 9,
       "id": "the_standard_ke",
       "language": "en",
-      "last_seen": "2026-05-21T15:18:26.786923+00:00",
+      "last_seen": "2026-05-21T16:05:23.990057+00:00",
       "name": "The Standard (KE)",
       "scope": "national"
     },
