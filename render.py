@@ -156,7 +156,7 @@ def _build_morning_memo(d: dict) -> str:
 
 def _build_stat_of_day(d: dict) -> str:
     s = d.get("stat_of_day") or {}
-    if not s:
+    if not s or not isinstance(s, dict):
         return ""
     number = _esc(s.get("number", ""))
     label  = _esc(s.get("label", ""))
@@ -294,7 +294,8 @@ def _build_card_grid(items: list, accent: str, label: str, kicker_color: str = "
 
 def _build_monitor_block(d: dict, key: str, label: str) -> str:
     block = d.get(key) or {}
-    # Block is a dict with paragraph keys
+    if not isinstance(block, dict):
+        block = {}
     paragraphs = []
     for k, v in block.items():
         if k.startswith("source"):
@@ -425,7 +426,7 @@ def _build_press_delta(d: dict) -> str:
     paragraphs = []
     for k, v in block.items():
         if isinstance(v, str) and not k.startswith("source"):
-            paragraphs.append(f'<p style="margin:0 0 12px 0;"><strong style="color:#9ec8e8;">{_esc(k).replace("_"," ").title()}:</strong> {_esc(v)}</p>')
+            paragraphs.append(f'<p style="margin:0 0 12px 0;">{_esc(v)}</p>')
     sources = block.get("sources") or block.get("source_line") or ""
     return f"""
 <tr><td style="background:#1a1f2e;padding:32px;color:#ffffff;">
