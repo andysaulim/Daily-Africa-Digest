@@ -26,6 +26,12 @@ def _esc(s) -> str:
         return ""
     return _html.escape(str(s), quote=True)
 
+def _as_dict(item, text_key: str = "text") -> dict:
+    """Normalize a list item Claude may return as a string instead of a dict."""
+    if isinstance(item, dict):
+        return item
+    return {text_key: str(item) if item is not None else ""}
+
 def _clean_src(raw: str) -> str:
     if not raw:
         return ""
@@ -178,6 +184,7 @@ def _build_top_stories(d: dict) -> str:
     stories = d.get("top_stories") or []
     blocks = []
     for s in stories:
+        s = _as_dict(s, "headline")
         kicker  = _esc(s.get("kicker", ""))
         headline= _esc(s.get("headline", ""))
         dek     = _esc(s.get("dek", ""))
@@ -205,6 +212,7 @@ def _build_overnight_flash(d: dict) -> str:
     # 2x2 grid
     cells = []
     for it in items[:4]:
+        it = _as_dict(it, "headline")
         kicker  = _esc(it.get("kicker") or it.get("country_or_kicker", ""))
         headline= _esc(it.get("headline", ""))
         dek     = _esc(it.get("dek", ""))
@@ -237,6 +245,7 @@ def _build_the_wire(d: dict) -> str:
     items = d.get("the_wire") or []
     rows = []
     for i, it in enumerate(items):
+        it = _as_dict(it)
         kicker = _esc(it.get("kicker", ""))
         text   = _esc(it.get("text", ""))
         is_last = (i == len(items) - 1)
@@ -257,6 +266,7 @@ def _build_card_grid(items: list, accent: str, label: str, kicker_color: str = "
     """Render a 2-column card grid for sections like Continental Bodies, External Powers, US-Africa."""
     cells = []
     for it in items[:4]:
+        it = _as_dict(it, "headline")
         kicker   = _esc(it.get("kicker", ""))
         headline = _esc(it.get("headline", ""))
         dek      = _esc(it.get("dek", ""))
@@ -324,6 +334,7 @@ def _build_personnel_elections(d: dict) -> str:
     items = d.get("personnel_elections") or []
     rows = []
     for i, it in enumerate(items):
+        it = _as_dict(it)
         date_label = _esc(it.get("date_label", ""))
         text       = _esc(it.get("text", ""))
         border = "" if i == len(items) - 1 else "border-bottom:1px solid #e5e7eb;"
@@ -345,6 +356,7 @@ def _build_experts(d: dict) -> str:
     items = d.get("expert_analysts") or []
     rows = []
     for i, it in enumerate(items):
+        it = _as_dict(it, "institution")
         institution = _esc(it.get("institution", ""))
         text        = _esc(it.get("text", ""))
         border = "" if i == len(items) - 1 else "border-bottom:1px solid #e5e7eb;"
@@ -367,6 +379,7 @@ def _build_calendar(d: dict) -> str:
     items = d.get("calendar_watch") or []
     rows = []
     for i, it in enumerate(items):
+        it = _as_dict(it)
         month_label = _esc(it.get("month", ""))
         day_label   = _esc(it.get("day", ""))
         text        = _esc(it.get("text", ""))
