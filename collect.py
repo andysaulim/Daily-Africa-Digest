@@ -307,11 +307,36 @@ def _stooq_quote(symbol: str) -> dict | None:
         lines = r.text.strip().split("\n")
         if len(lines) < 2:
             return None
-        _header, row = lines[0].split(","), lines[1].split(",")
+        row = lines[1].split(",")
         if len(row) < 7 or row[6] == "N/D":
             return None
-        return {"value": float(row[6]), "change_pct": None, "as_of": row[1]}
+        close_idx = 6
+        open_idx  = 3
+        try:
+            close = float(row[close_idx])
+            open_ = float(row[open_idx])
+            change_pct = round((close - open_) / open_ * 100, 2) if open_ else None
+        except (ValueError, ZeroDivisionError):
+            close, change_pct = float(row[close_idx]), None
+        return {"value": close, "change_pct": change_pct, "as_of": row[1]}
     except (requests.RequestException, ValueError, IndexError):
+        return None
+
+def _investing_com_quote(url_path: str, pattern: str) -> dict | None:
+    """Lightweight scrape of a publicly visible price from investing.com."""
+    try:
+        r = requests.get(
+            f"https://api.investing.com/api/financialdata/{url_path}/historical/chart/",
+            headers={"User-Agent": USER_AGENT, "domain-id": "www", "Accept": "application/json"},
+            timeout=10,
+        )
+        r.raise_for_status()
+        data = r.json().get("data", [])
+        if not data:
+            return None
+        last = data[-1]
+        return {"value": round(float(last[1]), 2), "change_pct": None}
+    except Exception:
         return None
 
 def fetch_markets() -> dict:

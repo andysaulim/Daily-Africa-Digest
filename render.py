@@ -53,8 +53,8 @@ def _clean_src(raw: str) -> str:
 def _market_cell(label: str, value, change_pct=None, sub: str = "") -> str:
     """Render one market cell. Color the change in red/green based on sign."""
     if value is None:
-        value_str = "— pending"
-        change_html = '<div style="font-size:11px;color:rgba(255,255,255,0.55);">no live data this run</div>'
+        value_str = "—"
+        change_html = '<div style="font-size:11px;color:rgba(255,255,255,0.45);">no live feed</div>'
     else:
         value_str = str(value)
         if change_pct is None:
@@ -78,9 +78,10 @@ def _market_cell(label: str, value, change_pct=None, sub: str = "") -> str:
 
 _AFRICA_MAP_URL = "https://raw.githubusercontent.com/andysaulim/Daily-Africa-Digest/main/public/africa.svg"
 
-def _build_header(d: dict) -> str:
+def _build_header(d: dict, word_count: int = 0) -> str:
     date_str = _esc(d.get("digest_date", "—"))
     re_line  = _esc(d.get("re_line", ""))
+    wc_chip  = f'<span style="display:inline-block;background:rgba(255,255,255,0.10);color:rgba(255,255,255,0.75);font-family:\'Courier New\',Courier,monospace;font-size:10px;letter-spacing:1px;padding:2px 8px;border:1px solid rgba(255,255,255,0.20);margin-left:10px;">~{word_count:,} words</span>' if word_count else ""
     return f"""
 <tr><td style="background:#1B2A4A;padding:0;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
@@ -88,7 +89,7 @@ def _build_header(d: dict) -> str:
       <td style="padding:28px 32px 24px 32px;color:#ffffff;vertical-align:top;">
         <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">CSIS · Daily Africa Brief</div>
         <div style="font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;color:#ffffff;font-weight:400;letter-spacing:-0.5px;margin-bottom:14px;">Africa Daily Brief</div>
-        <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">{date_str} &nbsp;·&nbsp; 7:30 AM ET</div>
+        <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">{date_str} &nbsp;·&nbsp; 7:30 AM ET{wc_chip}</div>
         <div style="border-top:1px solid rgba(255,255,255,0.18);margin:18px 0 14px 0;"></div>
         <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">RE</div>
         <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.92);">{re_line}</div>
@@ -505,12 +506,23 @@ def _build_footer(d: dict) -> str:
 # MAIN RENDER
 # ─────────────────────────────────────────────────────────────────────────────
 
+def _word_count(node) -> int:
+    """Count words across all text values in the digest."""
+    if isinstance(node, str):
+        return len(node.split())
+    if isinstance(node, dict):
+        return sum(_word_count(v) for v in node.values())
+    if isinstance(node, list):
+        return sum(_word_count(v) for v in node)
+    return 0
+
 def render_html(digest: dict) -> str:
     """Render a validated digest dict to email-safe HTML."""
     title = _esc(digest.get("digest_date", "Africa Daily Brief"))
+    wc = _word_count(digest)
 
     sections = [
-        _build_header(digest),
+        _build_header(digest, wc),
         _build_market_strip(digest),
         _build_delta_bar(digest),
         _build_morning_memo(digest),
