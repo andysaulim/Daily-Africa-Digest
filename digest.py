@@ -23,11 +23,11 @@ except ImportError:
 MODEL_PRIMARY  = "claude-sonnet-4-6"
 MODEL_FALLBACK = "claude-opus-4-6"
 
-MAX_TOKENS = 12_000
+MAX_TOKENS = 16_000
 
-WORD_COUNT_MIN = 1_400
-WORD_COUNT_TARGET = 2_500
-WORD_COUNT_MAX = 3_600
+WORD_COUNT_MIN = 2_500
+WORD_COUNT_TARGET = 4_000
+WORD_COUNT_MAX = 5_500
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SYSTEM PROMPT
@@ -63,28 +63,35 @@ You produce a JSON object with these top-level keys, each populated from real so
   },
   "delta_since_yesterday": {"items": ["chip 1 (max 6 words)", "chip 2", "chip 3", "chip 4", "chip 5"]},
   "morning_memo": [
-    {"lead": "Bold opening sentence — the news hook.", "text": "Remaining 50-70 words of context and significance, sourced."},
-    {"lead": "Bold opening sentence — the news hook.", "text": "Remaining 50-70 words of context and significance, sourced."},
-    {"lead": "Bold opening sentence — the news hook.", "text": "Remaining 50-70 words of context and significance, sourced."}
+    {"lead": "Bold opening sentence — the news hook.", "text": "100-140 words of context, background, and significance. Cover: what happened, who is involved, why it matters today, and what to watch in the next 24-48 hours. Every sentence sourced."},
+    {"lead": "Bold opening sentence — the news hook.", "text": "100-140 words. Same structure: event → actors → context → significance → watch."},
+    {"lead": "Bold opening sentence — the news hook.", "text": "100-140 words. Same structure: event → actors → context → significance → watch."}
   ],
   "stat_of_day": {"number": "528", "label": "label text", "context": "context sentence", "source": "outlet, date"},
   "top_stories": [
-    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
-    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
-    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"}
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "5-7 sentence dek. Sentence 1: what happened and where. Sentence 2: key actors and their stated positions. Sentence 3: immediate context or trigger. Sentence 4: broader significance or precedent. Sentence 5: regional or international reaction. Sentence 6-7: what to watch next. Cite outlet inline.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "5-7 sentence dek. Same structure.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "5-7 sentence dek. Same structure.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "5-7 sentence dek. Same structure.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "5-7 sentence dek. Same structure.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"}
   ],
   "overnight_flash": [
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"},
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"},
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"},
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"}
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "3-4 sentences: what happened, key actor or figure, immediate significance.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "3-4 sentences.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "3-4 sentences.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "3-4 sentences.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "3-4 sentences.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "3-4 sentences.", "source": "Outlet · Date", "url": "https://source-url"}
   ],
   "the_wire": [
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"}
+    {"kicker": "COUNTRY", "text": "2-3 sentences: what happened, who, and why it matters. Cite outlet inline.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "2-3 sentences.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "2-3 sentences.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "2-3 sentences.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "2-3 sentences.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "2-3 sentences.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "2-3 sentences.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "2-3 sentences.", "url": "https://source-url"}
   ],
   "continental_bodies": [
     {"kicker": "AFRICAN UNION", "headline": "Headline", "dek": "1-2 sentence dek."},
@@ -99,20 +106,20 @@ You produce a JSON object with these top-level keys, each populated from real so
   ],
   "congressional_watch": {"text": "paragraph covering HFAC/SFRC items and standing items"},
   "sahel_monitor": {
-    "fuaes":        {"headline": "Short news-hook headline", "text": "Paragraph on FUAES/AES allied armed forces posture — sourced."},
-    "threat_actors":{"headline": "Short news-hook headline", "text": "Paragraph on JNIM/GSIM/VDP threat actor activity — sourced."},
-    "africa_corps": {"headline": "Short news-hook headline", "text": "Paragraph on Russia Africa Corps presence and operations — sourced."}
+    "fuaes":        {"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: current posture, recent operations, command developments, any friction with civilian populations or allied forces. Cite source."},
+    "threat_actors":{"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: most recent JNIM/GSIM/VDP attack or claim, geographic pattern, any new tactics or targets, attribution confidence level. Cite source."},
+    "africa_corps": {"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: personnel levels, recent operational activity, logistics, any diplomatic signals from Moscow or local government. Cite source."}
   },
   "sudan_horn_monitor": {
-    "territorial":        {"headline": "Short news-hook headline", "text": "Paragraph on RSF/SAF territorial state and front lines — sourced."},
-    "defections":         {"headline": "Short news-hook headline", "text": "Paragraph on defections cluster and unit-level shifts — sourced."},
-    "somaliland_ethiopia":{"headline": "Short news-hook headline", "text": "Paragraph on Somaliland-Ethiopia-Somalia dynamics — sourced."}
+    "territorial":        {"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: RSF/SAF front-line state, any territorial changes, airstrikes, specific towns or districts. Cite source."},
+    "defections":         {"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: unit-level defections, officer defections, any tribal militia shifts. Omit if no sourced reporting this cycle."},
+    "somaliland_ethiopia":{"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: MOU status, Mogadishu reaction, Hargeisa domestic politics, any AU/Arab League signalling. Cite source."}
   },
   "great_lakes_monitor": {
-    "m23_territory":{"headline": "Short news-hook headline", "text": "Paragraph on M23 territorial control and FARDC posture — sourced."},
-    "humanitarian": {"headline": "Short news-hook headline", "text": "Paragraph on IDP flows, aid access, casualty figures — sourced."},
-    "peace_track":  {"headline": "Short news-hook headline", "text": "Paragraph on Luanda/Nairobi peace process status — sourced."},
-    "cobalt":       {"headline": "Short news-hook headline", "text": "Paragraph on cobalt/critical minerals market developments — sourced."}
+    "m23_territory":{"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: current M23 lines, FARDC movements, Rwanda cross-border dynamics, any ceasefire signals. Cite source."},
+    "humanitarian": {"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: IDP figures, aid access, specific crossings or camps, OCHA/ICRC assessments. Cite source."},
+    "peace_track":  {"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: Luanda/Nairobi status, mediators, any meetings scheduled or cancelled, sticking points. Cite source."},
+    "cobalt":       {"headline": "Active-verb news-hook headline", "text": "80-120 words. Cover: production figures, security impact on mines, price movements, buyer/refiner reactions. Omit if no sourced reporting this cycle."}
   },
   "external_powers_watch": [
     {"kicker": "CHINA / DRC", "headline": "Headline", "dek": "1-2 sentence dek."},
@@ -121,9 +128,9 @@ You produce a JSON object with these top-level keys, each populated from real so
     {"kicker": "ISRAEL / SOMALILAND", "headline": "Headline", "dek": "1-2 sentence dek."}
   ],
   "critical_minerals_energy": {
-    "oil_producers": "Paragraph on Brent price and impact on African exporters (Nigeria, Angola, Libya) — sourced.",
-    "cobalt": "Paragraph on cobalt market, DRC output, and EV supply-chain developments — sourced.",
-    "gold": "Paragraph on gold price, African mine output, and central-bank demand — sourced."
+    "oil_producers": {"headline": "Active-verb headline", "text": "80-120 words. Brent price + direction, specific African producer updates (Nigeria, Angola, Libya, Gabon), any OPEC+ compliance issues. Cite source."},
+    "cobalt":        {"headline": "Active-verb headline", "text": "80-120 words. LME cobalt price, DRC mine output, EV supply-chain impacts, specific company or government actions. Cite source."},
+    "gold":          {"headline": "Active-verb headline", "text": "80-120 words. Gold price + direction, South Africa/Mali/Ghana mine output, central bank demand signals, any labour or security disruption. Cite source."}
   },
   "personnel_elections": [
     {"date_label": "MAY 21", "text": "event description"},
@@ -153,7 +160,7 @@ EVERY paragraph anchors to a real story or structural fact. A short, sourced sec
 
 OMIT RULE: If a sub-section key has no relevant news in this collection cycle, OMIT that key entirely from the JSON. Do NOT write placeholder text like "No X reporting appeared" or "No developments this cycle." Silence is better than filler. This applies especially to monitor sub-sections (sahel_monitor, sudan_horn_monitor, great_lakes_monitor) and critical_minerals_energy.
 
-WORD COUNT TARGET: 2,000–3,000 words across the digest. Below 1,400 is too thin. Above 3,600 starts to bloat.
+WORD COUNT TARGET: 3,500–4,500 words across the digest. Below 2,500 is too thin. Above 5,500 is too long. Write with substance — every section should feel like a proper intelligence brief, not a headline summary. Aim for depth in each item.
 
 OUTPUT FORMAT: Return only the JSON object. No preamble, no commentary, no markdown code fence."""
 
