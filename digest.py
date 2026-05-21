@@ -55,27 +55,76 @@ STRUCTURE
 You produce a JSON object with these top-level keys, each populated from real source material:
 
 {
-  "digest_date":       "Thursday, May 21, 2026" (or actual date),
-  "re_line":           "5-7 short clauses summarizing today's news, separated by middots",
-  "market_strip":      { brent, gold, jse_all_share, ngx_all_share, usd_zar, usd_egp, alsi_range },
-  "delta_since_yesterday": { "items": [up to 7 short chips, real changes only] },
-  "morning_memo":      [exactly 3 paragraphs, each 60-90 words, one verified story each, bolded lead],
-  "stat_of_day":       { "number", "label", "context", "source" },
-  "top_stories":       [3 leads — each: kicker, headline, dek (3-4 sentences), source_line],
-  "overnight_flash":   [4 items — each: country_or_kicker, headline, dek (1-2 sentences), source],
-  "the_wire":          [5 short items — each: kicker, text (1-2 sentences with source)],
-  "continental_bodies": [4 cells — AU, AES, EAC, SADC/SAMIDRC items with real, verified content],
-  "us_africa_policy":  [3 cards — third-country removals, OFAC action, AFRICOM/state, all real],
-  "congressional_watch": { paragraph with HFAC/SFRC items + standing items },
-  "sahel_monitor":     { 3 paragraphs — FUAES, threat actors, Africa Corps },
-  "sudan_horn_monitor": { 3 paragraphs — territorial state, defections cluster, Somaliland/Ethiopia },
-  "great_lakes_monitor": { 4 paragraphs — M23 territory, humanitarian, peace track, cobalt },
-  "external_powers_watch": [4 cards — China/DRC, Russia/Sahel, UAE/Sudan, Israel/Somaliland or similar],
-  "critical_minerals_energy": { 3 paragraphs — Brent + African producers, cobalt, gold },
-  "personnel_elections": [3-4 rows — labeled by date or theme],
-  "expert_analysts":   [3-4 lines — institution + event/publication today, real and verifiable],
-  "calendar_watch":    [4 rows — date + event],
-  "press_delta":       { 3 paragraphs — three framing divergences with specific attribution },
+  "digest_date":       "Thursday, May 21, 2026",
+  "re_line":           "5-7 short clauses summarizing today's news, separated by middots (·)",
+  "market_strip":      {
+    "brent":         {"value": 107.80, "change_pct": -0.4, "sub": "USD/bbl"},
+    "gold":          {"value": 4508,   "change_pct":  0.2, "sub": "USD/oz"},
+    "jse_all_share": {"value": 84321,  "change_pct": -0.1, "sub": "FTSE/JSE"},
+    "ngx_all_share": {"value": null,   "change_pct": null, "sub": "NGX"},
+    "usd_zar":       {"value": 18.42,  "change_pct":  0.1, "sub": "USD/ZAR"},
+    "usd_egp":       {"value": 49.8,   "change_pct":  0.0, "sub": "USD/EGP"}
+  },
+  "delta_since_yesterday": {"items": ["chip 1", "chip 2", "chip 3"]},
+  "morning_memo":      ["paragraph 1 text (60-90 words, one verified story)", "paragraph 2 text", "paragraph 3 text"],
+  "stat_of_day":       {"number": "528", "label": "label text", "context": "context sentence", "source": "outlet, date"},
+  "top_stories": [
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date"}
+  ],
+  "overnight_flash": [
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"}
+  ],
+  "the_wire": [
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."}
+  ],
+  "continental_bodies": [
+    {"kicker": "AFRICAN UNION", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "AES", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "EAC", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "SADC / SAMIDRC", "headline": "Headline", "dek": "1-2 sentence dek."}
+  ],
+  "us_africa_policy": [
+    {"kicker": "THIRD-COUNTRY REMOVALS", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "OFAC ACTION", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "AFRICOM / STATE", "headline": "Headline", "dek": "1-2 sentence dek."}
+  ],
+  "congressional_watch": {"text": "paragraph covering HFAC/SFRC items and standing items"},
+  "sahel_monitor":     {"p1": "FUAES paragraph", "p2": "threat actors paragraph", "p3": "Africa Corps paragraph"},
+  "sudan_horn_monitor": {"p1": "territorial state paragraph", "p2": "defections cluster paragraph", "p3": "Somaliland/Ethiopia paragraph"},
+  "great_lakes_monitor": {"p1": "M23 territory paragraph", "p2": "humanitarian paragraph", "p3": "peace track paragraph", "p4": "cobalt paragraph"},
+  "external_powers_watch": [
+    {"kicker": "CHINA / DRC", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "RUSSIA / SAHEL", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "UAE / SUDAN", "headline": "Headline", "dek": "1-2 sentence dek."},
+    {"kicker": "ISRAEL / SOMALILAND", "headline": "Headline", "dek": "1-2 sentence dek."}
+  ],
+  "critical_minerals_energy": {"p1": "Brent + African producers paragraph", "p2": "cobalt paragraph", "p3": "gold paragraph"},
+  "personnel_elections": [
+    {"date_label": "MAY 21", "text": "event description"},
+    {"date_label": "MAY 22", "text": "event description"},
+    {"date_label": "END 2026", "text": "event description"}
+  ],
+  "expert_analysts": [
+    {"institution": "INSTITUTION NAME", "text": "event or publication description"},
+    {"institution": "INSTITUTION NAME", "text": "event or publication description"},
+    {"institution": "INSTITUTION NAME", "text": "event or publication description"}
+  ],
+  "calendar_watch": [
+    {"month": "MAY", "day": "21", "text": "event description"},
+    {"month": "MAY", "day": "22", "text": "event description"},
+    {"month": "MAY", "day": "25", "text": "event description"},
+    {"month": "JUN", "day": "1",  "text": "event description"}
+  ],
+  "press_delta":       {"p1": "framing divergence 1 paragraph", "p2": "framing divergence 2 paragraph", "p3": "framing divergence 3 paragraph"},
   "footer_note":       "single line confirming sourcing and methodology"
 }
 

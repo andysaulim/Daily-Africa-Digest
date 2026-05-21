@@ -300,7 +300,7 @@ def _build_monitor_block(d: dict, key: str, label: str) -> str:
         if k.startswith("source"):
             continue
         if isinstance(v, str):
-            paragraphs.append(f'<p style="margin:0 0 10px 0;"><strong style="color:#8E44AD;">{_esc(k).replace("_"," ").title()}:</strong> {_esc(v)}</p>')
+            paragraphs.append(f'<p style="margin:0 0 10px 0;">{_esc(v)}</p>')
     sources = block.get("sources") or block.get("source_line") or ""
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
@@ -406,7 +406,7 @@ def _build_minerals_energy(d: dict) -> str:
     paragraphs = []
     for k, v in block.items():
         if isinstance(v, str):
-            paragraphs.append(f'<p style="margin:0 0 10px 0;"><strong style="color:#a8810a;">{_esc(k).replace("_"," ").title()}:</strong> {_esc(v)}</p>')
+            paragraphs.append(f'<p style="margin:0 0 10px 0;">{_esc(v)}</p>')
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
   <div style="display:inline-block;background:#D4AC0D;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">Critical Minerals &amp; Energy</div>
