@@ -1,0 +1,203 @@
+{
+  "framing_dossiers": {
+    "agoa_post_lapse": {
+      "african_frame": "Sovereignty leverage, BRICS+ pivot opening",
+      "label": "AGOA · post-expiry framing",
+      "watch": "Both correct; gap is emphasis",
+      "western_frame": "Trade-policy gap, replacement legislation focus"
+    },
+    "anc_decline": {
+      "african_frame": "Coalition repositioning, internal succession dynamics",
+      "label": "South Africa · ANC political trajectory",
+      "watch": "Local elections 2026 will test both reads",
+      "western_frame": "Decline narrative, post-apartheid order erosion"
+    },
+    "drc_rwanda_attribution": {
+      "african_frame": "Rwanda backing explicit; UN Group of Experts findings cited",
+      "label": "DRC · Rwanda M23 backing",
+      "watch": "Treasury Kabila sanctions and ICW reporting close some gap",
+      "western_frame": "Hedged; \"Rwanda-backed\" used sparingly, often with denial"
+    },
+    "sahel_western_disengagement": {
+      "african_frame": "Sovereignty assertion, decolonial sequencing",
+      "label": "Sahel · Western disengagement",
+      "watch": "Both framings select for different evidence",
+      "western_frame": "Russian/Wagner gains, security vacuum"
+    },
+    "somaliland_recognition": {
+      "african_frame": "Israel recognition fact-stated; Taiwan/UAE/UK presence noted as structural",
+      "label": "Somaliland recognition geometry",
+      "watch": "Taiwan attendance at independence ceremony May 18 signals widening",
+      "western_frame": "Regional curiosity; recognition treated as one-off"
+    },
+    "sudan_uae_attribution": {
+      "african_frame": "UAE named explicitly as RSF primary backer, with defector accounts cited as evidence",
+      "label": "Sudan · UAE attribution",
+      "watch": "Defector accounts (Adam, Al-Savana) push the gap closer",
+      "western_frame": "UAE attribution treated as Khartoum claim; hedged language"
+    }
+  },
+  "last_update": "2026-05-21T15:02:47.294250+00:00",
+  "outlets": {
+    "addis_standard": {
+      "article_count_24h": 0,
+      "id": "addis_standard",
+      "language": "en",
+      "last_seen": null,
+      "name": "Addis Standard",
+      "scope": "national"
+    },
+    "africa_intel": {
+      "article_count_24h": 0,
+      "id": "africa_intel",
+      "language": "en",
+      "last_seen": null,
+      "name": "Africa Intelligence",
+      "scope": "pan-african"
+    },
+    "africa_report": {
+      "article_count_24h": 0,
+      "id": "africa_report",
+      "language": "en",
+      "last_seen": null,
+      "name": "The Africa Report",
+      "scope": "pan-african"
+    },
+    "africanews": {
+      "article_count_24h": 29,
+      "id": "africanews",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "Africanews",
+      "scope": "pan-african"
+    },
+    "ahram_online": {
+      "article_count_24h": 16,
+      "id": "ahram_online",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "Ahram Online (EG)",
+      "scope": "national"
+    },
+    "allafrica": {
+      "article_count_24h": 136,
+      "id": "allafrica",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "AllAfrica",
+      "scope": "pan-african"
+    },
+    "dabanga": {
+      "article_count_24h": 4,
+      "id": "dabanga",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "Dabanga Sudan",
+      "scope": "national"
+    },
+    "daily_maverick": {
+      "article_count_24h": 0,
+      "id": "daily_maverick",
+      "language": "en",
+      "last_seen": null,
+      "name": "Daily Maverick (SA)",
+      "scope": "national"
+    },
+    "daily_nation": {
+      "article_count_24h": 0,
+      "id": "daily_nation",
+      "language": "en",
+      "last_seen": null,
+      "name": "Daily Nation (KE)",
+      "scope": "national"
+    },
+    "east_african": {
+      "article_count_24h": 0,
+      "id": "east_african",
+      "language": "en",
+      "last_seen": null,
+      "name": "The East African",
+      "scope": "regional"
+    },
+    "enca": {
+      "article_count_24h": 0,
+      "id": "enca",
+      "language": "en",
+      "last_seen": null,
+      "name": "eNCA (SA)",
+      "scope": "national"
+    },
+    "mada_masr": {
+      "article_count_24h": 0,
+      "id": "mada_masr",
+      "language": "en",
+      "last_seen": null,
+      "name": "Mada Masr (EG)",
+      "scope": "national"
+    },
+    "mg_za": {
+      "article_count_24h": 2,
+      "id": "mg_za",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "Mail & Guardian (SA)",
+      "scope": "national"
+    },
+    "news24": {
+      "article_count_24h": 0,
+      "id": "news24",
+      "language": "en",
+      "last_seen": null,
+      "name": "News24 (SA)",
+      "scope": "national"
+    },
+    "premium_times": {
+      "article_count_24h": 15,
+      "id": "premium_times",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "Premium Times (NG)",
+      "scope": "national"
+    },
+    "punch_ng": {
+      "article_count_24h": 28,
+      "id": "punch_ng",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "Punch (NG)",
+      "scope": "national"
+    },
+    "sudan_tribune": {
+      "article_count_24h": 0,
+      "id": "sudan_tribune",
+      "language": "en",
+      "last_seen": null,
+      "name": "Sudan Tribune",
+      "scope": "national"
+    },
+    "sudans_post": {
+      "article_count_24h": 3,
+      "id": "sudans_post",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "Sudans Post",
+      "scope": "national"
+    },
+    "the_standard_ke": {
+      "article_count_24h": 10,
+      "id": "the_standard_ke",
+      "language": "en",
+      "last_seen": "2026-05-21T15:02:47.294250+00:00",
+      "name": "The Standard (KE)",
+      "scope": "national"
+    },
+    "thecable_ng": {
+      "article_count_24h": 0,
+      "id": "thecable_ng",
+      "language": "en",
+      "last_seen": null,
+      "name": "TheCable (NG)",
+      "scope": "national"
+    }
+  }
+}
