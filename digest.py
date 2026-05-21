@@ -99,20 +99,20 @@ You produce a JSON object with these top-level keys, each populated from real so
   ],
   "congressional_watch": {"text": "paragraph covering HFAC/SFRC items and standing items"},
   "sahel_monitor": {
-    "fuaes":        {"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: current posture, recent operations, any friction with civilian populations. Cite source."},
-    "threat_actors":{"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: most recent JNIM/GSIM attack or claim, geographic pattern, new tactics. Cite source."},
-    "africa_corps": {"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: recent operational activity, any diplomatic signals. Cite source."}
+    "FUAES status":  {"headline": "Active-verb headline", "text": "40-60 words covering current posture and recent operations. Cite source."},
+    "Threat actors": {"headline": "Active-verb headline", "text": "40-60 words covering most recent JNIM/GSIM activity and geographic pattern. Cite source."},
+    "Africa Corps":  {"headline": "Active-verb headline", "text": "40-60 words covering recent activity and diplomatic signals. Cite source."}
   },
   "sudan_horn_monitor": {
-    "territorial":        {"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: RSF/SAF front-line state, any territorial changes, specific towns. Cite source."},
-    "defections":         {"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: unit-level defections, militia shifts. Omit if no sourced reporting this cycle."},
-    "somaliland_ethiopia":{"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: MOU status, key reactions. Cite source."}
+    "Sudan territorial": {"headline": "Active-verb headline", "text": "40-60 words covering RSF/SAF front-line state and key changes. Cite source."},
+    "Defections":        {"headline": "Active-verb headline", "text": "40-60 words covering unit or officer defections. Omit this key if no sourced reporting this cycle."},
+    "Somaliland":        {"headline": "Active-verb headline", "text": "40-60 words covering latest status and key reactions. Cite source."}
   },
   "great_lakes_monitor": {
-    "m23_territory":{"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: current M23 lines, FARDC movements, ceasefire signals. Cite source."},
-    "humanitarian": {"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: IDP figures, aid access. Cite source."},
-    "peace_track":  {"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: Luanda/Nairobi status, sticking points. Cite source."},
-    "cobalt":       {"headline": "Active-verb news-hook headline", "text": "40-60 words. Cover: production figures, price movements. Omit if no sourced reporting this cycle."}
+    "M23 territory":  {"headline": "Active-verb headline", "text": "40-60 words covering current M23 lines, FARDC movements, ceasefire signals. Cite source."},
+    "Humanitarian":   {"headline": "Active-verb headline", "text": "40-60 words covering IDP figures and aid access. Cite source."},
+    "Peace track":    {"headline": "Active-verb headline", "text": "40-60 words covering Luanda/Nairobi status and sticking points. Cite source."},
+    "Cobalt":         {"headline": "Active-verb headline", "text": "40-60 words covering production figures and price movements. Omit this key if no sourced reporting this cycle."}
   },
   "external_powers_watch": [
     {"kicker": "CHINA / DRC", "headline": "Headline", "dek": "1-2 sentence dek."},
@@ -141,11 +141,6 @@ You produce a JSON object with these top-level keys, each populated from real so
     {"month": "MAY", "day": "25", "text": "event description"},
     {"month": "JUN", "day": "1",  "text": "event description"}
   ],
-  "press_delta": {
-    "divergence_1": "TOPIC — [topic name]. African framing: [how African outlets cover it]. Western framing: [how Western outlets cover it]. Significance: [why the gap matters].",
-    "divergence_2": "TOPIC — [topic name]. African framing: ... Western framing: ... Significance: ...",
-    "divergence_3": "TOPIC — [topic name]. African framing: ... Western framing: ... Significance: ..."
-  },
   "footer_note": "single line confirming sourcing and methodology"
 }
 
@@ -271,9 +266,8 @@ REQUIRED_SECTIONS = [
     "digest_date", "re_line", "market_strip", "delta_since_yesterday",
     "morning_memo", "stat_of_day", "top_stories", "overnight_flash",
     "the_wire", "continental_bodies", "us_africa_policy", "congressional_watch",
-    "sahel_monitor", "sudan_horn_monitor", "great_lakes_monitor",
     "external_powers_watch", "critical_minerals_energy", "personnel_elections",
-    "expert_analysts", "calendar_watch", "press_delta",
+    "expert_analysts", "calendar_watch",
 ]
 
 def _word_count(digest: dict) -> int:

@@ -83,22 +83,13 @@ def _build_header(d: dict, word_count: int = 0) -> str:
     re_line  = _esc(d.get("re_line", ""))
     wc_chip  = f'<span style="display:inline-block;background:rgba(255,255,255,0.10);color:rgba(255,255,255,0.75);font-family:\'Courier New\',Courier,monospace;font-size:10px;letter-spacing:1px;padding:2px 8px;border:1px solid rgba(255,255,255,0.20);margin-left:10px;">~{word_count:,} words</span>' if word_count else ""
     return f"""
-<tr><td style="background:#1B2A4A;padding:0;">
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
-    <tr>
-      <td style="padding:28px 32px 24px 32px;color:#ffffff;vertical-align:top;">
-        <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">CSIS · Daily Africa Brief</div>
-        <div style="font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;color:#ffffff;font-weight:400;letter-spacing:-0.5px;margin-bottom:14px;">Africa Daily Brief</div>
-        <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">{date_str} &nbsp;·&nbsp; 7:30 AM ET{wc_chip}</div>
-        <div style="border-top:1px solid rgba(255,255,255,0.18);margin:18px 0 14px 0;"></div>
-        <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">RE</div>
-        <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.92);">{re_line}</div>
-      </td>
-      <td width="90" style="padding:20px 24px 0 0;vertical-align:top;text-align:right;">
-        <img src="{_AFRICA_MAP_URL}" width="62" height="73" alt="" style="display:block;opacity:0.28;" border="0">
-      </td>
-    </tr>
-  </table>
+<tr><td style="background:#1B2A4A;padding:28px 32px 24px 32px;color:#ffffff;">
+  <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">CSIS · Daily Africa Brief</div>
+  <div style="font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;color:#ffffff;font-weight:400;letter-spacing:-0.5px;margin-bottom:14px;">Africa Daily Brief</div>
+  <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">{date_str} &nbsp;·&nbsp; 7:30 AM ET{wc_chip}</div>
+  <div style="border-top:1px solid rgba(255,255,255,0.18);margin:18px 0 14px 0;"></div>
+  <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">RE</div>
+  <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.92);">{re_line}</div>
 </td></tr>
 """
 
@@ -151,26 +142,21 @@ def _build_delta_bar(d: dict) -> str:
 
 def _build_morning_memo(d: dict) -> str:
     memo = d.get("morning_memo") or []
-    numerals = ["①", "②", "③", "④", "⑤"]
-    rows = []
+    paras = []
     for i, p in enumerate(memo):
-        num = numerals[i] if i < len(numerals) else f"{i+1}."
+        margin = "0 0 12px 0" if i < len(memo) - 1 else "0"
         if isinstance(p, str):
             body = _esc(p)
         else:
             lead = _esc(p.get("lead", ""))
             text = _esc(p.get("text", ""))
             body = f"<strong>{lead}</strong> {text}" if lead else text
-        rows.append(f"""
-<tr>
-  <td width="32" valign="top" style="padding:0 14px 18px 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:bold;color:#1B2A4A;line-height:1;">{num}</td>
-  <td style="padding:0 0 18px 0;border-left:2px solid #e5e7eb;padding-left:14px;font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{body}</td>
-</tr>""")
+        paras.append(f'<p style="margin:{margin};">{body}</p>')
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
   <div style="display:inline-block;background:#1B2A4A;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:14px;">Morning Memo</div>
-  <div style="font-family:Georgia,'Times New Roman',serif;font-size:21px;line-height:1.4;color:#1B2A4A;margin-bottom:18px;letter-spacing:-0.3px;">Three notes for the desk this morning</div>
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">{''.join(rows)}</table>
+  <div style="font-family:Georgia,'Times New Roman',serif;font-size:21px;line-height:1.4;color:#1B2A4A;margin-bottom:14px;letter-spacing:-0.3px;">Three notes for the desk this morning</div>
+  <div style="border-left:3px solid #1B2A4A;padding-left:16px;font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{''.join(paras)}</div>
 </td></tr>
 """
 
@@ -223,10 +209,11 @@ def _build_top_stories(d: dict) -> str:
   </table>
 </td></tr>
 """)
-    header = """
+    header = f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
   <div style="display:inline-block;background:#2980B9;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">Top Stories</div>
-  <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">""" + f"{len(stories)} leads · continent-wide</div></td></tr>"
+  <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">{len(stories)} leads · continent-wide</div>
+</td></tr>"""
     return header + "".join(blocks)
 
 def _build_overnight_flash(d: dict) -> str:
@@ -290,8 +277,10 @@ def _build_the_wire(d: dict) -> str:
 </td></tr>
 """
 
-def _build_card_grid(items: list, accent: str, label: str, kicker_color: str = "#1B2A4A") -> str:
+def _build_card_grid(items: list, accent: str, label: str, subtitle: str = "", kicker_color: str = "#1B2A4A") -> str:
     """Render a 2-column card grid for sections like Continental Bodies, External Powers, US-Africa."""
+    if not items:
+        return ""
     cells = []
     for it in items[:4]:
         it = _as_dict(it, "headline")
@@ -300,7 +289,7 @@ def _build_card_grid(items: list, accent: str, label: str, kicker_color: str = "
         dek      = _esc(it.get("dek", ""))
         cells.append(f"""
 <td width="50%" valign="top" style="padding:0 8px 12px 0;">
-  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fafafa;border-left:3px solid {accent};">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fafafa;border-top:3px solid {accent};">
     <tr><td style="padding:14px 16px;">
       <div style="font-family:'Courier New',Courier,monospace;font-size:9px;color:{accent};letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;">{kicker}</div>
       <div style="font-family:Arial,sans-serif;font-size:13px;line-height:1.55;color:{kicker_color};font-weight:bold;margin-bottom:4px;">{headline}</div>
@@ -311,42 +300,46 @@ def _build_card_grid(items: list, accent: str, label: str, kicker_color: str = "
     rows = []
     for i in range(0, len(cells), 2):
         rows.append(f"<tr>{''.join(cells[i:i+2])}</tr>")
+    subtitle_html = f'<div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">{_esc(subtitle)}</div>' if subtitle else '<div style="margin-bottom:18px;"></div>'
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:{accent};color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">{label}</div>
+  <div style="display:inline-block;background:{accent};color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">{label}</div>
+  {subtitle_html}
 </td></tr>
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">{''.join(rows)}</table>
 </td></tr>
 """
 
-def _build_monitor_block(d: dict, key: str, label: str) -> str:
+def _build_monitor_block(d: dict, key: str, label: str, subtitle: str = "") -> str:
     block = d.get(key) or {}
     if not isinstance(block, dict):
         block = {}
-    paragraphs = []
     items_list = [(k, v) for k, v in block.items() if not k.startswith("source") and v]
+    if not items_list:
+        return ""
+    paras = []
     for idx, (k, v) in enumerate(items_list):
-        sub_label = _esc(k.replace("_", " ").upper())
-        divider = "" if idx == 0 else 'border-top:1px solid rgba(142,68,173,0.18);margin-top:16px;padding-top:16px;'
+        margin = "0 0 10px 0" if idx < len(items_list) - 1 else "0"
         if isinstance(v, dict):
-            headline = _esc(v.get("headline", ""))
-            text     = _esc(v.get("text", ""))
-            headline_html = f'<div style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#1B2A4A;margin-bottom:5px;">{headline}</div>' if headline else ""
+            bold_label = _esc(v.get("headline", "") or k.replace("_", " ").capitalize())
+            text = _esc(v.get("text", ""))
         else:
-            headline_html = ""
+            bold_label = _esc(k.replace("_", " ").capitalize())
             text = _esc(str(v))
-        paragraphs.append(f'<div style="{divider}"><div style="font-family:\'Courier New\',Courier,monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#8E44AD;margin-bottom:5px;">{sub_label}</div>{headline_html}<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.65;color:#2c2c2c;">{text}</p></div>')
+        paras.append(f'<p style="margin:{margin};"><strong style="color:#8E44AD;">{bold_label}:</strong> {text}</p>')
     sources = block.get("sources") or block.get("source_line") or ""
+    subtitle_html = f'<div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">{_esc(subtitle)}</div>' if subtitle else '<div style="margin-bottom:18px;"></div>'
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:#8E44AD;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">{label}</div>
+  <div style="display:inline-block;background:#8E44AD;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">{label}</div>
+  {subtitle_html}
 </td></tr>
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#faf7fc;border-left:4px solid #8E44AD;">
     <tr><td style="padding:18px 22px;">
-      <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{''.join(paragraphs)}</div>
-      <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#6b7280;letter-spacing:0.5px;margin-top:14px;text-transform:uppercase;">{_esc(sources)}</div>
+      <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{''.join(paras)}</div>
+      {'<div style="font-family:&#39;Courier New&#39;,Courier,monospace;font-size:10px;color:#6b7280;letter-spacing:0.5px;margin-top:14px;text-transform:uppercase;">' + _esc(sources) + '</div>' if sources else ''}
     </td></tr>
   </table>
 </td></tr>
@@ -355,9 +348,12 @@ def _build_monitor_block(d: dict, key: str, label: str) -> str:
 def _build_congressional_watch(d: dict) -> str:
     block = d.get("congressional_watch") or {}
     text  = block if isinstance(block, str) else block.get("text", "")
+    if not text:
+        return ""
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:#C0392B;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">Congressional Watch</div>
+  <div style="display:inline-block;background:#C0392B;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">Congressional Watch</div>
+  <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">SFRC Africa · HFAC Africa · Select Committee</div>
 </td></tr>
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fafafa;border-left:3px solid #C0392B;">
@@ -368,6 +364,8 @@ def _build_congressional_watch(d: dict) -> str:
 
 def _build_personnel_elections(d: dict) -> str:
     items = d.get("personnel_elections") or []
+    if not items:
+        return ""
     rows = []
     for i, it in enumerate(items):
         it = _as_dict(it)
@@ -381,7 +379,8 @@ def _build_personnel_elections(d: dict) -> str:
 </tr>""")
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:#2C3E50;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">Personnel &amp; Elections</div>
+  <div style="display:inline-block;background:#2C3E50;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">Personnel &amp; Elections</div>
+  <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">Heads of state · upcoming elections · junta transitions</div>
 </td></tr>
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #e5e7eb;">{''.join(rows)}</table>
@@ -406,7 +405,8 @@ def _build_experts(d: dict) -> str:
 </td></tr>""")
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:#2980B9;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">Expert Analysts</div>
+  <div style="display:inline-block;background:#2980B9;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">Expert Analysts</div>
+  <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">CSIS Africa · ISS · ACSS · Stimson · FPRI · ISW · Chatham</div>
 </td></tr>
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #e5e7eb;">{''.join(rows)}</table>
@@ -432,7 +432,8 @@ def _build_calendar(d: dict) -> str:
 </tr>""")
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:#2C3E50;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">Calendar Watch</div>
+  <div style="display:inline-block;background:#2C3E50;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">Calendar Watch</div>
+  <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">Next 60 days</div>
 </td></tr>
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-top:1px solid #e5e7eb;">{''.join(rows)}</table>
@@ -443,27 +444,28 @@ def _build_minerals_energy(d: dict) -> str:
     block = d.get("critical_minerals_energy") or {}
     if not isinstance(block, dict):
         block = {}
-    paragraphs = []
     items_list = [(k, v) for k, v in block.items() if v]
+    if not items_list:
+        return ""
+    paras = []
     for idx, (k, v) in enumerate(items_list):
-        sub_label = _esc(k.replace("_", " ").upper())
-        divider = "" if idx == 0 else 'border-top:1px solid rgba(212,172,13,0.25);margin-top:16px;padding-top:16px;'
+        margin = "0 0 10px 0" if idx < len(items_list) - 1 else "0"
         if isinstance(v, dict):
-            headline = _esc(v.get("headline", ""))
-            text     = _esc(v.get("text", ""))
-            headline_html = f'<div style="font-family:Arial,sans-serif;font-size:14px;font-weight:bold;color:#1B2A4A;margin-bottom:5px;">{headline}</div>' if headline else ""
+            bold_label = _esc(v.get("headline", "") or k.replace("_", " ").capitalize())
+            text = _esc(v.get("text", ""))
         else:
-            headline_html = ""
+            bold_label = _esc(k.replace("_", " ").capitalize())
             text = _esc(str(v))
-        paragraphs.append(f'<div style="{divider}"><div style="font-family:\'Courier New\',Courier,monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#a8810a;margin-bottom:5px;">{sub_label}</div>{headline_html}<p style="margin:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.65;color:#2c2c2c;">{text}</p></div>')
+        paras.append(f'<p style="margin:{margin};"><strong style="color:#a8810a;">{bold_label}:</strong> {text}</p>')
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
-  <div style="display:inline-block;background:#D4AC0D;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">Critical Minerals &amp; Energy</div>
+  <div style="display:inline-block;background:#D4AC0D;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:6px;">Critical Minerals &amp; Energy</div>
+  <div style="font-family:Arial,sans-serif;font-size:11px;color:#6b7280;margin-bottom:18px;text-transform:uppercase;letter-spacing:0.5px;">Cobalt · gold · oil · Brent · African producers</div>
 </td></tr>
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fffbf0;border-left:4px solid #D4AC0D;">
     <tr><td style="padding:18px 22px;">
-      <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{''.join(paragraphs)}</div>
+      <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{''.join(paras)}</div>
     </td></tr>
   </table>
 </td></tr>
@@ -530,18 +532,17 @@ def render_html(digest: dict) -> str:
         _build_top_stories(digest),
         _build_overnight_flash(digest),
         _build_the_wire(digest),
-        _build_card_grid(digest.get("continental_bodies") or [], "#1B2A4A", "Continental Bodies"),
-        _build_card_grid(digest.get("us_africa_policy") or [], "#C0392B", "US–Africa Policy"),
+        _build_card_grid(digest.get("continental_bodies") or [], "#1B2A4A", "Continental Bodies", "AU · AfCFTA · SADC · ECOWAS · EAC · AES"),
+        _build_card_grid(digest.get("us_africa_policy") or [], "#C0392B", "US–Africa Policy", "AGOA · AFRICOM · DFC · OFAC · State Africa"),
         _build_congressional_watch(digest),
-        _build_monitor_block(digest, "sahel_monitor", "Sahel Monitor"),
-        _build_monitor_block(digest, "sudan_horn_monitor", "Sudan &amp; Horn Monitor"),
-        _build_monitor_block(digest, "great_lakes_monitor", "Great Lakes Monitor"),
-        _build_card_grid(digest.get("external_powers_watch") or [], "#C0392B", "External Powers Watch"),
+        _build_monitor_block(digest, "sahel_monitor", "Sahel Monitor", "AES · JNIM · ISSP · Africa Corps"),
+        _build_monitor_block(digest, "sudan_horn_monitor", "Sudan &amp; Horn Monitor", "SAF/RSF · Ethiopia · Somalia · Somaliland"),
+        _build_monitor_block(digest, "great_lakes_monitor", "Great Lakes Monitor", "DRC · M23/AFC · Rwanda · Burundi"),
+        _build_card_grid(digest.get("external_powers_watch") or [], "#C0392B", "External Powers Watch", "China · Russia · UAE · Türkiye · Israel"),
         _build_minerals_energy(digest),
         _build_personnel_elections(digest),
         _build_experts(digest),
         _build_calendar(digest),
-        _build_press_delta(digest),
         _build_footer(digest),
     ]
 
