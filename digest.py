@@ -58,33 +58,33 @@ You produce a JSON object with these top-level keys, each populated from real so
   "digest_date":       "Thursday, May 21, 2026",
   "re_line":           "5-7 short clauses summarizing today's news, separated by middots (·)",
   "market_strip":      {
-    "brent":         {"value": 107.80, "change_pct": -0.4, "sub": "USD/bbl"},
-    "gold":          {"value": 4508,   "change_pct":  0.2, "sub": "USD/oz"},
-    "jse_all_share": {"value": 84321,  "change_pct": -0.1, "sub": "FTSE/JSE"},
-    "ngx_all_share": {"value": null,   "change_pct": null, "sub": "NGX"},
-    "usd_zar":       {"value": 18.42,  "change_pct":  0.1, "sub": "USD/ZAR"},
-    "usd_egp":       {"value": 49.8,   "change_pct":  0.0, "sub": "USD/EGP"}
+    "brent": {"value": 107.80, "change_pct": -0.4, "sub": "USD/bbl"},
+    "gold":  {"value": 4508,   "change_pct":  0.2, "sub": "USD/oz"}
   },
-  "delta_since_yesterday": {"items": ["chip 1", "chip 2", "chip 3"]},
-  "morning_memo":      ["paragraph 1 text (60-90 words, one verified story)", "paragraph 2 text", "paragraph 3 text"],
-  "stat_of_day":       {"number": "528", "label": "label text", "context": "context sentence", "source": "outlet, date"},
+  "delta_since_yesterday": {"items": ["chip 1 (max 6 words)", "chip 2", "chip 3", "chip 4", "chip 5"]},
+  "morning_memo": [
+    {"lead": "Bold opening sentence — the news hook.", "text": "Remaining 50-70 words of context and significance, sourced."},
+    {"lead": "Bold opening sentence — the news hook.", "text": "Remaining 50-70 words of context and significance, sourced."},
+    {"lead": "Bold opening sentence — the news hook.", "text": "Remaining 50-70 words of context and significance, sourced."}
+  ],
+  "stat_of_day": {"number": "528", "label": "label text", "context": "context sentence", "source": "outlet, date"},
   "top_stories": [
-    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date"},
-    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date"},
-    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date"}
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"},
+    {"kicker": "KICKER TEXT", "headline": "Headline here", "dek": "3-4 sentence dek.", "source_line": "Outlet · Date", "url": "https://source-url-from-articles"}
   ],
   "overnight_flash": [
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"},
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"},
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"},
-    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date"}
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "headline": "Headline", "dek": "1-2 sentence dek.", "source": "Outlet · Date", "url": "https://source-url"}
   ],
   "the_wire": [
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."},
-    {"kicker": "COUNTRY", "text": "1-2 sentence item with source."}
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"},
+    {"kicker": "COUNTRY", "text": "1-2 sentence item with inline source attribution.", "url": "https://source-url"}
   ],
   "continental_bodies": [
     {"kicker": "AFRICAN UNION", "headline": "Headline", "dek": "1-2 sentence dek."},
@@ -98,25 +98,42 @@ You produce a JSON object with these top-level keys, each populated from real so
     {"kicker": "AFRICOM / STATE", "headline": "Headline", "dek": "1-2 sentence dek."}
   ],
   "congressional_watch": {"text": "paragraph covering HFAC/SFRC items and standing items"},
-  "sahel_monitor":     {"p1": "FUAES paragraph", "p2": "threat actors paragraph", "p3": "Africa Corps paragraph"},
-  "sudan_horn_monitor": {"p1": "territorial state paragraph", "p2": "defections cluster paragraph", "p3": "Somaliland/Ethiopia paragraph"},
-  "great_lakes_monitor": {"p1": "M23 territory paragraph", "p2": "humanitarian paragraph", "p3": "peace track paragraph", "p4": "cobalt paragraph"},
+  "sahel_monitor": {
+    "fuaes": "Paragraph on FUAES/AES allied armed forces posture — sourced.",
+    "threat_actors": "Paragraph on JNIM/GSIM/VDP threat actor activity — sourced.",
+    "africa_corps": "Paragraph on Russia Africa Corps presence and operations — sourced."
+  },
+  "sudan_horn_monitor": {
+    "territorial": "Paragraph on RSF/SAF territorial state and front lines — sourced.",
+    "defections": "Paragraph on defections cluster and unit-level shifts — sourced.",
+    "somaliland_ethiopia": "Paragraph on Somaliland-Ethiopia-Somalia dynamics — sourced."
+  },
+  "great_lakes_monitor": {
+    "m23_territory": "Paragraph on M23 territorial control and FARDC posture — sourced.",
+    "humanitarian": "Paragraph on IDP flows, aid access, casualty figures — sourced.",
+    "peace_track": "Paragraph on Luanda/Nairobi peace process status — sourced.",
+    "cobalt": "Paragraph on cobalt/critical minerals market developments — sourced."
+  },
   "external_powers_watch": [
     {"kicker": "CHINA / DRC", "headline": "Headline", "dek": "1-2 sentence dek."},
     {"kicker": "RUSSIA / SAHEL", "headline": "Headline", "dek": "1-2 sentence dek."},
     {"kicker": "UAE / SUDAN", "headline": "Headline", "dek": "1-2 sentence dek."},
     {"kicker": "ISRAEL / SOMALILAND", "headline": "Headline", "dek": "1-2 sentence dek."}
   ],
-  "critical_minerals_energy": {"p1": "Brent + African producers paragraph", "p2": "cobalt paragraph", "p3": "gold paragraph"},
+  "critical_minerals_energy": {
+    "oil_producers": "Paragraph on Brent price and impact on African exporters (Nigeria, Angola, Libya) — sourced.",
+    "cobalt": "Paragraph on cobalt market, DRC output, and EV supply-chain developments — sourced.",
+    "gold": "Paragraph on gold price, African mine output, and central-bank demand — sourced."
+  },
   "personnel_elections": [
     {"date_label": "MAY 21", "text": "event description"},
     {"date_label": "MAY 22", "text": "event description"},
     {"date_label": "END 2026", "text": "event description"}
   ],
   "expert_analysts": [
-    {"institution": "INSTITUTION NAME", "text": "event or publication description"},
-    {"institution": "INSTITUTION NAME", "text": "event or publication description"},
-    {"institution": "INSTITUTION NAME", "text": "event or publication description"}
+    {"institution": "INSTITUTION NAME", "text": "event or publication description", "url": "https://url-to-paper-or-event"},
+    {"institution": "INSTITUTION NAME", "text": "event or publication description", "url": "https://url-to-paper-or-event"},
+    {"institution": "INSTITUTION NAME", "text": "event or publication description", "url": "https://url-to-paper-or-event"}
   ],
   "calendar_watch": [
     {"month": "MAY", "day": "21", "text": "event description"},
@@ -124,8 +141,12 @@ You produce a JSON object with these top-level keys, each populated from real so
     {"month": "MAY", "day": "25", "text": "event description"},
     {"month": "JUN", "day": "1",  "text": "event description"}
   ],
-  "press_delta":       {"p1": "framing divergence 1 paragraph", "p2": "framing divergence 2 paragraph", "p3": "framing divergence 3 paragraph"},
-  "footer_note":       "single line confirming sourcing and methodology"
+  "press_delta": {
+    "divergence_1": "TOPIC — [topic name]. African framing: [how African outlets cover it]. Western framing: [how Western outlets cover it]. Significance: [why the gap matters].",
+    "divergence_2": "TOPIC — [topic name]. African framing: ... Western framing: ... Significance: ...",
+    "divergence_3": "TOPIC — [topic name]. African framing: ... Western framing: ... Significance: ..."
+  },
+  "footer_note": "single line confirming sourcing and methodology"
 }
 
 EVERY paragraph anchors to a real story or structural fact. If a section can't be populated from sources, leave it minimal — DO NOT pad. A short, sourced section beats a long fabricated one.

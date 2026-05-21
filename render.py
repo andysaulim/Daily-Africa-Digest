@@ -32,6 +32,12 @@ def _as_dict(item, text_key: str = "text") -> dict:
         return item
     return {text_key: str(item) if item is not None else ""}
 
+def _safe_url(url) -> str:
+    if not url:
+        return ""
+    u = str(url).strip()
+    return u if u.lower().startswith(("http://", "https://")) else ""
+
 def _clean_src(raw: str) -> str:
     if not raw:
         return ""
@@ -70,17 +76,29 @@ def _market_cell(label: str, value, change_pct=None, sub: str = "") -> str:
 # COMPONENT BUILDERS
 # ─────────────────────────────────────────────────────────────────────────────
 
+_AFRICA_SVG = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 118" width="62" height="73" style="display:block;opacity:0.30;">
+  <path fill="#ffffff" d="M32,4 L50,2 L66,4 L76,12 L80,24 L77,34 L85,43 L88,56 L84,70 L74,87 L61,103 L52,114 L43,103 L30,87 L20,70 L16,56 L19,43 L11,33 L14,20 L23,11 Z"/>
+  <path fill="#ffffff" d="M76,12 L82,18 L84,28 L80,24 Z"/>
+</svg>"""
+
 def _build_header(d: dict) -> str:
     date_str = _esc(d.get("digest_date", "—"))
     re_line  = _esc(d.get("re_line", ""))
     return f"""
-<tr><td style="background:#1B2A4A;padding:28px 32px 24px 32px;color:#ffffff;">
-  <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">CSIS · Daily Africa Brief</div>
-  <div style="font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;color:#ffffff;font-weight:400;letter-spacing:-0.5px;margin-bottom:14px;">Africa Daily Brief</div>
-  <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">{date_str} &nbsp;·&nbsp; 7:30 AM ET</div>
-  <div style="border-top:1px solid rgba(255,255,255,0.18);margin:18px 0 14px 0;"></div>
-  <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">RE</div>
-  <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.92);">{re_line}</div>
+<tr><td style="background:#1B2A4A;padding:0;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+      <td style="padding:28px 32px 24px 32px;color:#ffffff;vertical-align:top;">
+        <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:10px;">CSIS · Daily Africa Brief</div>
+        <div style="font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.15;color:#ffffff;font-weight:400;letter-spacing:-0.5px;margin-bottom:14px;">Africa Daily Brief</div>
+        <div style="font-family:Arial,sans-serif;font-size:13px;color:rgba(255,255,255,0.75);line-height:1.55;">{date_str} &nbsp;·&nbsp; 7:30 AM ET</div>
+        <div style="border-top:1px solid rgba(255,255,255,0.18);margin:18px 0 14px 0;"></div>
+        <div style="font-family:'Courier New',Courier,monospace;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.55);margin-bottom:6px;">RE</div>
+        <div style="font-family:Arial,sans-serif;font-size:14px;line-height:1.6;color:rgba(255,255,255,0.92);">{re_line}</div>
+      </td>
+      <td width="90" style="padding:24px 28px 0 0;vertical-align:top;text-align:right;">{_AFRICA_SVG}</td>
+    </tr>
+  </table>
 </td></tr>
 """
 
@@ -104,14 +122,6 @@ def _build_market_strip(d: dict) -> str:
     <tr>
       <td width="50%" style="padding:14px 18px;background:#1B2A4A;border-right:1px solid rgba(255,255,255,0.10);color:#ffffff;font-family:Arial,sans-serif;">{cell("brent", "Brent crude")}</td>
       <td width="50%" style="padding:14px 18px;background:#1B2A4A;color:#ffffff;font-family:Arial,sans-serif;">{cell("gold", "Gold")}</td>
-    </tr>
-    <tr>
-      <td width="50%" style="padding:14px 18px;background:#22325a;border-right:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.10);color:#ffffff;font-family:Arial,sans-serif;">{cell("jse_all_share", "FTSE/JSE All-Share")}</td>
-      <td width="50%" style="padding:14px 18px;background:#22325a;border-top:1px solid rgba(255,255,255,0.10);color:#ffffff;font-family:Arial,sans-serif;">{cell("ngx_all_share", "NGX All-Share")}</td>
-    </tr>
-    <tr>
-      <td width="50%" style="padding:14px 18px;background:#293b66;border-right:1px solid rgba(255,255,255,0.10);border-top:1px solid rgba(255,255,255,0.10);color:#ffffff;font-family:Arial,sans-serif;">{cell("usd_zar", "USD / ZAR")}</td>
-      <td width="50%" style="padding:14px 18px;background:#293b66;border-top:1px solid rgba(255,255,255,0.10);color:#ffffff;font-family:Arial,sans-serif;">{cell("usd_egp", "USD / EGP")}</td>
     </tr>
   </table>
 </td></tr>
@@ -141,16 +151,26 @@ def _build_delta_bar(d: dict) -> str:
 
 def _build_morning_memo(d: dict) -> str:
     memo = d.get("morning_memo") or []
-    paragraphs = "".join(
-        f'<p style="margin:0 0 12px 0;">{_esc(p)}</p>' if isinstance(p, str)
-        else f'<p style="margin:0 0 12px 0;"><strong>{_esc(p.get("lead",""))}</strong> {_esc(p.get("text",""))}</p>'
-        for p in memo
-    )
+    numerals = ["①", "②", "③", "④", "⑤"]
+    rows = []
+    for i, p in enumerate(memo):
+        num = numerals[i] if i < len(numerals) else f"{i+1}."
+        if isinstance(p, str):
+            body = _esc(p)
+        else:
+            lead = _esc(p.get("lead", ""))
+            text = _esc(p.get("text", ""))
+            body = f"<strong>{lead}</strong> {text}" if lead else text
+        rows.append(f"""
+<tr>
+  <td width="32" valign="top" style="padding:0 14px 18px 0;font-family:Georgia,'Times New Roman',serif;font-size:22px;font-weight:bold;color:#1B2A4A;line-height:1;">{num}</td>
+  <td style="padding:0 0 18px 0;border-left:2px solid #e5e7eb;padding-left:14px;font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{body}</td>
+</tr>""")
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
   <div style="display:inline-block;background:#1B2A4A;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:14px;">Morning Memo</div>
-  <div style="font-family:Georgia,'Times New Roman',serif;font-size:21px;line-height:1.4;color:#1B2A4A;margin-bottom:14px;letter-spacing:-0.3px;">Three notes for the desk this morning</div>
-  <div style="border-left:3px solid #1B2A4A;padding-left:16px;font-family:Arial,sans-serif;font-size:14px;line-height:1.7;color:#2c2c2c;">{paragraphs}</div>
+  <div style="font-family:Georgia,'Times New Roman',serif;font-size:21px;line-height:1.4;color:#1B2A4A;margin-bottom:18px;letter-spacing:-0.3px;">Three notes for the desk this morning</div>
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">{''.join(rows)}</table>
 </td></tr>
 """
 
@@ -189,6 +209,8 @@ def _build_top_stories(d: dict) -> str:
         headline= _esc(s.get("headline", ""))
         dek     = _esc(s.get("dek", ""))
         src     = _esc(s.get("source_line", ""))
+        url     = _safe_url(s.get("url", ""))
+        src_html = f'<a href="{url}" style="color:#6b7280;text-decoration:none;">{src} ↗</a>' if url else src
         blocks.append(f"""
 <tr><td style="padding:0 32px 12px 32px;background:#ffffff;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#F8F9FA;border-left:4px solid #2980B9;">
@@ -196,7 +218,7 @@ def _build_top_stories(d: dict) -> str:
       <div style="font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#2980B9;margin-bottom:8px;">{kicker}</div>
       <div style="font-family:Georgia,'Times New Roman',serif;font-size:18px;line-height:1.35;color:#1B2A4A;margin-bottom:10px;">{headline}</div>
       <div style="font-family:Arial,sans-serif;font-size:13px;line-height:1.65;color:#2c2c2c;margin-bottom:12px;">{dek}</div>
-      <div style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#6b7280;letter-spacing:0.5px;">{src}</div>
+      <div style="font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:0.5px;">{src_html}</div>
     </td></tr>
   </table>
 </td></tr>
@@ -216,13 +238,17 @@ def _build_overnight_flash(d: dict) -> str:
         kicker  = _esc(it.get("kicker") or it.get("country_or_kicker", ""))
         headline= _esc(it.get("headline", ""))
         dek     = _esc(it.get("dek", ""))
+        src     = _esc(it.get("source", ""))
+        url     = _safe_url(it.get("url", ""))
+        src_html = f'<a href="{url}" style="color:#9b7878;text-decoration:none;font-size:10px;font-family:Courier New,monospace;letter-spacing:0.5px;">{src} ↗</a>' if url else (f'<span style="color:#9b7878;font-size:10px;font-family:Courier New,monospace;">{src}</span>' if src else "")
         cells.append(f"""
 <td width="50%" valign="top" style="padding:0 8px 12px 0;">
   <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#fafafa;border-left:3px solid #C0392B;">
     <tr><td style="padding:14px 16px;">
       <div style="font-family:'Courier New',Courier,monospace;font-size:9px;color:#C0392B;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px;">{kicker}</div>
       <div style="font-family:Arial,sans-serif;font-size:13px;line-height:1.5;color:#1B2A4A;font-weight:bold;margin-bottom:6px;">{headline}</div>
-      <div style="font-family:Arial,sans-serif;font-size:12px;line-height:1.55;color:#444;">{dek}</div>
+      <div style="font-family:Arial,sans-serif;font-size:12px;line-height:1.55;color:#444;margin-bottom:8px;">{dek}</div>
+      {src_html}
     </td></tr>
   </table>
 </td>""")
@@ -248,12 +274,14 @@ def _build_the_wire(d: dict) -> str:
         it = _as_dict(it)
         kicker = _esc(it.get("kicker", ""))
         text   = _esc(it.get("text", ""))
+        url    = _safe_url(it.get("url", ""))
         is_last = (i == len(items) - 1)
         border = "" if is_last else "border-bottom:1px solid #e5e7eb;"
+        link_html = f' <a href="{url}" style="color:#9ca3af;text-decoration:none;font-size:10px;">↗</a>' if url else ""
         rows.append(f"""
 <tr><td style="padding:12px 0;{border}font-family:Arial,sans-serif;font-size:13px;line-height:1.55;color:#2c2c2c;">
   <span style="font-family:'Courier New',Courier,monospace;font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:0.8px;">{kicker} · </span>
-  {text}
+  {text}{link_html}
 </td></tr>""")
     return f"""
 <tr><td style="padding:0 32px 24px 32px;background:#ffffff;">
@@ -297,11 +325,11 @@ def _build_monitor_block(d: dict, key: str, label: str) -> str:
     if not isinstance(block, dict):
         block = {}
     paragraphs = []
-    for k, v in block.items():
-        if k.startswith("source"):
-            continue
-        if isinstance(v, str):
-            paragraphs.append(f'<p style="margin:0 0 10px 0;">{_esc(v)}</p>')
+    items_list = [(k, v) for k, v in block.items() if not k.startswith("source") and isinstance(v, str)]
+    for idx, (k, v) in enumerate(items_list):
+        sub_label = _esc(k.replace("_", " ").upper())
+        divider = "" if idx == 0 else 'border-top:1px solid rgba(142,68,173,0.18);margin-top:14px;padding-top:14px;'
+        paragraphs.append(f'<div style="{divider}"><div style="font-family:\'Courier New\',Courier,monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#8E44AD;margin-bottom:5px;">{sub_label}</div><p style="margin:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.65;color:#2c2c2c;">{_esc(v)}</p></div>')
     sources = block.get("sources") or block.get("source_line") or ""
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
@@ -360,11 +388,13 @@ def _build_experts(d: dict) -> str:
         it = _as_dict(it, "institution")
         institution = _esc(it.get("institution", ""))
         text        = _esc(it.get("text", ""))
+        url         = _safe_url(it.get("url", ""))
         border = "" if i == len(items) - 1 else "border-bottom:1px solid #e5e7eb;"
+        link_html = f' <a href="{url}" style="font-family:\'Courier New\',Courier,monospace;font-size:10px;color:#2980B9;text-decoration:none;">Read ↗</a>' if url else ""
         rows.append(f"""
 <tr><td style="padding:14px 0;{border}">
   <div style="font-family:Arial,sans-serif;font-size:13px;line-height:1.55;color:#2c2c2c;">
-    <strong style="color:#1B2A4A;">{institution}:</strong> {text}
+    <strong style="color:#1B2A4A;">{institution}:</strong> {text}{link_html}
   </div>
 </td></tr>""")
     return f"""
@@ -404,10 +434,14 @@ def _build_calendar(d: dict) -> str:
 
 def _build_minerals_energy(d: dict) -> str:
     block = d.get("critical_minerals_energy") or {}
+    if not isinstance(block, dict):
+        block = {}
     paragraphs = []
-    for k, v in block.items():
-        if isinstance(v, str):
-            paragraphs.append(f'<p style="margin:0 0 10px 0;">{_esc(v)}</p>')
+    items_list = [(k, v) for k, v in block.items() if isinstance(v, str)]
+    for idx, (k, v) in enumerate(items_list):
+        sub_label = _esc(k.replace("_", " ").upper())
+        divider = "" if idx == 0 else 'border-top:1px solid rgba(212,172,13,0.25);margin-top:14px;padding-top:14px;'
+        paragraphs.append(f'<div style="{divider}"><div style="font-family:\'Courier New\',Courier,monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#a8810a;margin-bottom:5px;">{sub_label}</div><p style="margin:0;font-family:Arial,sans-serif;font-size:13px;line-height:1.65;color:#2c2c2c;">{_esc(v)}</p></div>')
     return f"""
 <tr><td style="padding:24px 32px 8px 32px;background:#ffffff;">
   <div style="display:inline-block;background:#D4AC0D;color:#ffffff;font-family:'Courier New',Courier,monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:5px 12px;border-radius:2px;margin-bottom:18px;">Critical Minerals &amp; Energy</div>
@@ -423,10 +457,15 @@ def _build_minerals_energy(d: dict) -> str:
 
 def _build_press_delta(d: dict) -> str:
     block = d.get("press_delta") or {}
+    if not isinstance(block, dict):
+        block = {}
+    divergence_num = ["①", "②", "③", "④"]
     paragraphs = []
-    for k, v in block.items():
-        if isinstance(v, str) and not k.startswith("source"):
-            paragraphs.append(f'<p style="margin:0 0 12px 0;">{_esc(v)}</p>')
+    items_list = [(k, v) for k, v in block.items() if isinstance(v, str) and not k.startswith("source")]
+    for idx, (k, v) in enumerate(items_list):
+        num = divergence_num[idx] if idx < len(divergence_num) else "·"
+        divider = "" if idx == 0 else 'border-top:1px solid rgba(255,255,255,0.12);margin-top:16px;padding-top:16px;'
+        paragraphs.append(f'<div style="{divider}"><span style="font-family:Georgia,serif;font-size:16px;font-weight:bold;color:#9ec8e8;margin-right:8px;">{num}</span>{_esc(v)}</div>')
     sources = block.get("sources") or block.get("source_line") or ""
     return f"""
 <tr><td style="background:#1a1f2e;padding:32px;color:#ffffff;">
