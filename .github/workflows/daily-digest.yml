@@ -4,8 +4,6 @@ on:
   schedule:
     # 11:30 UTC = 7:30 AM EDT (EDT: Mar–Nov). Adjust to 12:30 UTC for EST window.
     - cron: '30 11 * * *'
-    # Fallback 30 minutes later
-    - cron: '00 12 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
