@@ -8,7 +8,7 @@ Architecture mirrors Daily-China-Digest:
 - Sonnet 4.6 primary
 - Opus 4.6 retry if content minimums fail validation
 - Strict grounding rules — no fabricated quotes, URLs, or attributions
-- Word-count target: 1,400–2,000
+- Word-count target: 1,300–1,800
 """
 
 import json
@@ -21,13 +21,13 @@ except ImportError:
     Anthropic = None  # Allows --dry-run without anthropic installed
 
 MODEL_PRIMARY  = "claude-sonnet-4-6"
-MODEL_FALLBACK = "claude-opus-4-6"
+MODEL_FALLBACK = "claude-opus-4-8"
 
 MAX_TOKENS = 8_000
 
 WORD_COUNT_MIN = 1_100
-WORD_COUNT_TARGET = 1_700
-WORD_COUNT_MAX = 2_400
+WORD_COUNT_TARGET = 1_600
+WORD_COUNT_MAX = 2_200
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SYSTEM PROMPT
@@ -148,7 +148,7 @@ EVERY paragraph anchors to a real story or structural fact. A short, sourced sec
 
 OMIT RULE: If a sub-section key has no relevant news in this collection cycle, OMIT that key entirely from the JSON. Do NOT write placeholder text like "No X reporting appeared" or "No developments this cycle." Silence is better than filler. This applies especially to monitor sub-sections (sahel_monitor, sudan_horn_monitor, great_lakes_monitor) and critical_minerals_energy.
 
-WORD COUNT TARGET: 1,400–2,000 words across the digest. Below 1,100 is too thin. Above 2,400 is too long. Write tight — every sentence must carry information. No filler, no padding, no repetition.
+WORD COUNT TARGET: 1,300–1,800 words across the digest. Below 1,100 is too thin. Above 2,000 is too long. Write tight — every sentence must carry information. No filler, no padding, no repetition.
 
 OUTPUT FORMAT: Return only the JSON object. No preamble, no commentary, no markdown code fence."""
 
