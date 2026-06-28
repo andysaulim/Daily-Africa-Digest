@@ -13,14 +13,14 @@ Collects from 100+ sources across four tiers, generates an analyst-grade digest 
 <!-- LATEST_RUN_START -->
 | Metric | Value |
 | --- | --- |
-| Last generated | 2026-06-27 12:57 UTC |
-| Digest date | Saturday, June 27, 2026 |
-| Articles collected | 334 |
-| Unique sources | 43 |
+| Last generated | 2026-06-28 12:59 UTC |
+| Digest date | Sunday, Jun 28, 2026 |
+| Articles collected | 220 |
+| Unique sources | 27 |
 | Top stories | 3 |
 | Overnight items | 4 |
-| Word count | 1796 |
-| Tier breakdown | Tier 1 (news): 318 · Tier 2 (analysis): 5 · Tier 3 (academic): 0 · Tier 4 (primary): 11 |
+| Word count | 1957 |
+| Tier breakdown | Tier 1 (news): 218 · Tier 2 (analysis): 0 · Tier 3 (academic): 0 · Tier 4 (primary): 2 |
 <!-- LATEST_RUN_END -->
 
 ---
