@@ -1,9 +1,6 @@
 name: Daily Africa Brief
 
 on:
-  schedule:
-    # 11:30 UTC = 7:30 AM EDT (EDT: Mar–Nov). Adjust to 12:30 UTC for EST window.
-    - cron: '30 11 * * *'
   workflow_dispatch:
     inputs:
       dry_run:
